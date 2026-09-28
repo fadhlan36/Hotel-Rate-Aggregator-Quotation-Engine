@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum City {
+  MAKKAH
+  MADINAH
+}
+
+model Hotel {
+  id          String   @id @default(cuid())
+  name        String
+  city        City
+  pricePerNight Decimal @db.Decimal(12, 2)
+  rating      Decimal  @default(4.5) @db.Decimal(2, 1)
+  distance    String
+  image       String
+  amenities   String[]
+  createdAt   DateTime @default(now())
+  quotations  Quotation[]
+  @@index([city])
+}
+
+model Quotation {
+  id                 String   @id @default(cuid())
+  hotelId            String
+  hotel              Hotel    @relation(fields: [hotelId], references: [id], onDelete: Restrict)
+  city               City
+  checkIn            DateTime @db.Date
+  checkOut           DateTime @db.Date
+  guests             Int
+  roomType           String
+  roomCount          Int
+  exchangeRate       Decimal  @db.Decimal(14, 2)
+  visaPerPersonSar   Decimal  @db.Decimal(12, 2)
+  transportTotalSar  Decimal  @db.Decimal(12, 2)
+  flightPerPersonIdr Decimal  @db.Decimal(14, 2)
+  marginPerPersonIdr Decimal  @db.Decimal(14, 2)
+  hotelTotalSar      Decimal  @db.Decimal(14, 2)
+  totalCostIdr       Decimal  @db.Decimal(16, 2)
+  costPerPersonIdr   Decimal  @db.Decimal(14, 2)
+  sellingPriceIdr    Decimal  @db.Decimal(14, 2)
+  createdAt          DateTime @default(now())
+  @@index([createdAt])
+}
