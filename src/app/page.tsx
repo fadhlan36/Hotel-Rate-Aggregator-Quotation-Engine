@@ -33,7 +33,6 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("recommended");
   const [maxPrice, setMaxPrice] = useState(2000);
-  const [favorites, setFavorites] = useState<string[]>([]);
   const [selected, setSelected] = useState<HotelRecord | null>(null);
 
   const [inputs, setInputs] = useState<QuotationInput>({
@@ -121,14 +120,6 @@ export default function Home() {
     }, 100);
   }
 
-  function toggleFavorite(hotelId: string) {
-    setFavorites((current) =>
-      current.includes(hotelId)
-        ? current.filter((id) => id !== hotelId)
-        : [...current, hotelId],
-    );
-  }
-
   async function calculateQuote() {
     setQuoteError("");
     setResult(null);
@@ -193,8 +184,6 @@ export default function Home() {
         setSort={setSort}
         maxPrice={maxPrice}
         setMaxPrice={setMaxPrice}
-        favorites={favorites}
-        toggleFavorite={toggleFavorite}
         chooseHotel={chooseHotel}
       />
       {selected && (

@@ -1,6 +1,6 @@
 import {
   ArrowDownUp, ArrowRight, ArrowUpRight, BedDouble, CalendarDays,
-  ChevronDown, Heart, MapPin, Minus, Plus, Search, SlidersHorizontal,
+  ChevronDown, MapPin, Minus, Plus, Search, SlidersHorizontal,
   Star, Users, X,
 } from "lucide-react";
 import type { City, HotelRecord } from "@/lib/hotels";
@@ -17,7 +17,6 @@ type Props = {
   query: string; setQuery: (query: string) => void;
   sort: string; setSort: (sort: string) => void;
   maxPrice: number; setMaxPrice: (price: number) => void;
-  favorites: string[]; toggleFavorite: (id: string) => void;
   chooseHotel: (hotel: HotelRecord) => void;
 };
 
@@ -70,6 +69,7 @@ export function HotelSearchSection(props: Props) {
             <select className="room-select" value={props.roomType} onChange={(event) => props.setRoomType(event.target.value)}>
               <option value="Double">Double</option><option value="Triple">Triple</option><option value="Quad">Quad</option>
             </select>
+            <ChevronDown className="room-select-chevron" size={14} aria-hidden="true" />
           </div>
         </label>
         <button type="button" className="search-button" onClick={props.searchHotels} disabled={props.loading}>
@@ -102,7 +102,7 @@ export function HotelSearchSection(props: Props) {
       ) : props.visibleHotels.length ? (
         <div className="hotel-grid">
           {props.visibleHotels.map((hotel, index) => (
-            <HotelCard key={hotel.id} hotel={hotel} number={index + 1} favorite={props.favorites.includes(hotel.id)} onToggleFavorite={() => props.toggleFavorite(hotel.id)} onChoose={() => props.chooseHotel(hotel)} />
+            <HotelCard key={hotel.id} hotel={hotel} onChoose={() => props.chooseHotel(hotel)} />
           ))}
         </div>
       ) : (
@@ -112,17 +112,12 @@ export function HotelSearchSection(props: Props) {
   );
 }
 
-function HotelCard({ hotel, number, favorite, onToggleFavorite, onChoose }: {
-  hotel: HotelRecord; number: number; favorite: boolean;
-  onToggleFavorite: () => void; onChoose: () => void;
+function HotelCard({ hotel, onChoose }: {
+  hotel: HotelRecord; onChoose: () => void;
 }) {
   return (
     <article className="hotel-card">
       <div className="hotel-photo" style={{ backgroundImage: `url('${hotel.image}')` }}>
-        <span className="hotel-number">{String(number).padStart(2, "0")}</span>
-        <button type="button" className={favorite ? "favorite favorited" : "favorite"} aria-label="Simpan hotel favorit" onClick={onToggleFavorite}>
-          <Heart size={17} fill={favorite ? "currentColor" : "none"} />
-        </button>
       </div>
       <div className="hotel-info">
         <div className="hotel-location"><MapPin size={13} />{hotel.distance}</div>
