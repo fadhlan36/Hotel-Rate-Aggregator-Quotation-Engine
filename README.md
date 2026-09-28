@@ -1,4 +1,4 @@
-# Safar — Hotel Rate Aggregator
+# Syafar — Hotel Rate Aggregator
 
 Aplikasi pencarian hotel Makkah/Madinah dan kalkulator quotation perjalanan umrah. Dibuat dengan Next.js App Router, TypeScript, PostgreSQL, dan Prisma ORM 6.
 
