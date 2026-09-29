@@ -25,13 +25,7 @@ const dateAfter = (days: number) =>
 
 export function HotelSearchSection(props: Props) {
   return (
-    <section className="search-section" id="search">
-      <div className="search-heading" style={{ marginBottom: "2.5rem" }}>
-        <div>
-          <h2>Cari dan bandingkan tarif</h2>
-          <p style={{ marginTop: "0.5rem" }}>Atur kebutuhan perjalanan, lalu pilih tarif hotel untuk menyusun quotation jamaah.</p>
-        </div>
-      </div>
+    <section className="search-section" id="search">r
 
       <div className="search-panel">
         <div className="field city-field">

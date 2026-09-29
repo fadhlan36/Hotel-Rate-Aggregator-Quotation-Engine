@@ -19,7 +19,7 @@ type SavedQuotation = {
   sellingPriceIdr: string | number;
 };
 
-export function SiteHeader({ savedQuotes }: { savedQuotes: number }) {
+export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [savedOpen, setSavedOpen] = useState(false);
@@ -70,12 +70,6 @@ export function SiteHeader({ savedQuotes }: { savedQuotes: number }) {
     }
   }
 
-  function goToQuotation() {
-    setMenuOpen(false);
-    const target = document.getElementById("quotation") ?? document.getElementById("search");
-    target?.scrollIntoView({ behavior: "smooth" });
-  }
-
   return (
     <header className={isScrolled ? "topbar is-scrolled" : "topbar"}>
       <a className="brand" href="#top">
@@ -84,12 +78,8 @@ export function SiteHeader({ savedQuotes }: { savedQuotes: number }) {
       </a>
       <nav id="mobile-navigation" className={menuOpen ? "mobile-nav open" : "mobile-nav"}>
         <a className="nav-active" href="#search" onClick={() => setMenuOpen(false)}>Hotel &amp; Tarif</a>
-        <a href="#quotation" onClick={(event) => { event.preventDefault(); goToQuotation(); }}>Quotation</a>
-        <button className="mobile-saved-link" type="button" onClick={() => void openSavedQuotes()}>Tersimpan <span>{Math.max(savedQuotes, savedItems.length)}</span></button>
+        <a href="#quotation" aria-haspopup="dialog" aria-expanded={savedOpen} onClick={(event) => { event.preventDefault(); void openSavedQuotes(); }}>Quotation</a>
       </nav>
-      <button className="saved-button" type="button" onClick={() => void openSavedQuotes()} aria-haspopup="dialog" aria-expanded={savedOpen}>
-        Daftar Quotation <span>{Math.max(savedQuotes, savedItems.length)}</span>
-      </button>
       <button className={menuOpen ? "mobile-menu is-open" : "mobile-menu"} type="button" aria-label={menuOpen ? "Tutup menu" : "Buka menu"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen((open) => !open)}>
         <ChevronDown size={20} />
       </button>

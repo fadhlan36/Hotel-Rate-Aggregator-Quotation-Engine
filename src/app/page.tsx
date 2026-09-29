@@ -39,7 +39,6 @@ export default function Home() {
   });
   const [result, setResult] = useState<QuoteResult | null>(null);
   const [quoteError, setQuoteError] = useState("");
-  const [savedQuotes, setSavedQuotes] = useState(0);
 
   const nights = useMemo(() => {
     if (!checkIn || !checkOut) return 0;
@@ -142,7 +141,6 @@ export default function Home() {
       }
 
       setResult(data);
-      if (data.saved) setSavedQuotes((count) => count + 1);
     } catch (cause) {
       setQuoteError(
         cause instanceof Error
@@ -154,7 +152,7 @@ export default function Home() {
 
   return (
     <main>
-      <SiteHeader savedQuotes={savedQuotes} />
+      <SiteHeader />
       <HeroSection />
       <HotelSearchSection
         city={city}
