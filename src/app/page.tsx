@@ -26,7 +26,7 @@ export default function Home() {
   const [error, setError] = useState("");
 
   const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("recommended");
+  const [sort, setSort] = useState("distance");
   const [maxPrice, setMaxPrice] = useState(2000);
   const [selected, setSelected] = useState<HotelRecord | null>(null);
 
@@ -101,7 +101,7 @@ export default function Home() {
     );
     return sort === "price"
       ? [...filtered].sort((a, b) => a.pricePerNight - b.pricePerNight)
-      : filtered;
+      : [...filtered].sort((a, b) => distanceInMeters(a.distance) - distanceInMeters(b.distance));
   }, [hotels, cityFilter, query, sort, maxPrice]);
 
   function chooseHotel(hotel: HotelRecord) {
@@ -206,4 +206,11 @@ export default function Home() {
       <SiteFooter />
     </main>
   );
+}
+
+function distanceInMeters(distance: string) {
+  const match = distance.match(/(\d+(?:[.,]\d+)?)\s*(km|kilometer|m|meter)\b/i);
+  if (!match) return Number.POSITIVE_INFINITY;
+  const amount = Number(match[1].replace(",", "."));
+  return /^km|kilometer$/i.test(match[2]) ? amount * 1000 : amount;
 }

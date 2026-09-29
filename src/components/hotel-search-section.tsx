@@ -76,7 +76,7 @@ export function HotelSearchSection(props: Props) {
         </div>
         <div className="result-controls">
           <label className="search-inline"><Search size={15} /><input value={props.query} onChange={(event) => props.setQuery(event.target.value)} placeholder="Cari nama hotel" /></label>
-          <label className="sort-control"><ArrowDownUp size={15} /><select value={props.sort} onChange={(event) => props.setSort(event.target.value)}><option value="recommended">Rekomendasi</option><option value="price">Harga terendah</option></select></label>
+          <label className="sort-control"><ArrowDownUp size={15} /><select value={props.sort} onChange={(event) => props.setSort(event.target.value)}><option value="distance">Jarak terdekat</option><option value="price">Harga terendah</option></select></label>
         </div>
       </div>
 
