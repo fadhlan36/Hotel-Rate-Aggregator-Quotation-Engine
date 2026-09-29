@@ -127,7 +127,7 @@ function QuoteSummary({ hotel, guests, rooms, inputs, result }: {
 }) {
   return (
     <aside className="quote-result">
-      <div className="result-top"><span>RINGKASAN ESTIMASI</span><Sparkles size={17} /></div>
+      <div className="result-top"><span>RINGKASAN ESTIMASI</span></div>
       {result ? (
         <>
           <div className="result-hotel">{hotel.name}<small>{result.nights} malam · {guests} jamaah</small></div>
@@ -148,7 +148,6 @@ function QuoteSummary({ hotel, guests, rooms, inputs, result }: {
         </>
       ) : (
         <div className="result-placeholder">
-          <div className="placeholder-icon"><Sparkles size={22} /></div>
           <h3>Perjalanan yang bermakna<br /><i>dimulai dengan perencanaan.</i></h3>
           <p>Isi biaya perjalanan Anda, lalu lihat ringkasan estimasi per jamaah di sini.</p>
           <div className="placeholder-line" />

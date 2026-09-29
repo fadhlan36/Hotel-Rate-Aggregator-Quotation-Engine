@@ -8,12 +8,7 @@ import {
   type QuotationInput,
   type QuoteResult,
 } from "@/components/quotation-section";
-import {
-  ClosingSection,
-  HeroSection,
-  SiteFooter,
-  SiteHeader,
-} from "@/components/site-chrome";
+import { HeroSection, SiteFooter, SiteHeader } from "@/components/site-chrome";
 
 const dateAfter = (days: number) =>
   new Date(Date.now() + days * 86400000).toISOString().slice(0, 10);
@@ -209,7 +204,6 @@ export default function Home() {
           onCalculate={calculateQuote}
         />
       )}
-      <ClosingSection />
       <SiteFooter />
     </main>
   );

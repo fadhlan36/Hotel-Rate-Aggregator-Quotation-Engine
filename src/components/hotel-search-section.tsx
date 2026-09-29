@@ -26,13 +26,11 @@ const dateAfter = (days: number) =>
 export function HotelSearchSection(props: Props) {
   return (
     <section className="search-section" id="search">
-      <div className="section-kicker">01 <span>/</span> TEMUKAN PENGINAPAN</div>
       <div className="search-heading" style={{ marginBottom: "2.5rem" }}>
         <div>
-          <h2>Perjalanan dimulai <i>di sini.</i></h2>
-          <p style={{ marginTop: "0.5rem" }}>Pilih kota tujuan dan tanggal perjalanan untuk menemukan tempat istirahat yang tepat.</p>
+          <h2>Cari dan bandingkan tarif</h2>
+          <p style={{ marginTop: "0.5rem" }}>Atur kebutuhan perjalanan, lalu pilih tarif hotel untuk menyusun quotation jamaah.</p>
         </div>
-        <span className="secure-note"><span /> HARGA LANGSUNG DARI SUPPLIER</span>
       </div>
 
       <div className="search-panel">
@@ -81,8 +79,8 @@ export function HotelSearchSection(props: Props) {
 
       <div className="results-head" style={{ marginTop: "3rem" }}>
         <div>
-          <div className="section-kicker">PILIHAN UNTUK ANDA</div>
-          <h3>{props.city === "MAKKAH" ? "Makkah" : "Madinah"} <span>· {props.visibleHotels.length} hotel</span></h3>
+          <div className="section-kicker">HASIL PENCARIAN</div>
+          <h3>Tarif {props.city === "MAKKAH" ? "Makkah" : "Madinah"} <span>· {props.visibleHotels.length} hotel</span></h3>
         </div>
         <div className="result-controls">
           <label className="search-inline"><Search size={15} /><input value={props.query} onChange={(event) => props.setQuery(event.target.value)} placeholder="Cari nama hotel" /></label>
@@ -98,7 +96,7 @@ export function HotelSearchSection(props: Props) {
       </div>
 
       {props.loading ? (
-        <div className="loading-state"><span className="spinner" />Menemukan tempat terbaik untuk Anda...</div>
+        <div className="loading-state"><span className="spinner" />Memuat tarif hotel...</div>
       ) : props.visibleHotels.length ? (
         <div className="hotel-grid">
           {props.visibleHotels.map((hotel, index) => (
@@ -106,7 +104,7 @@ export function HotelSearchSection(props: Props) {
           ))}
         </div>
       ) : (
-        <div className="empty-state"><Search size={22} /><h4>{props.searched ? "Belum ada hotel yang cocok" : "Pilih penginapan Anda"}</h4><p>Coba ubah kata pencarian atau rentang harga.</p></div>
+        <div className="empty-state"><Search size={22} /><h4>{props.searched ? "Hotel tidak ditemukan" : "Siap mencari hotel"}</h4><p>Ubah filter nama atau rentang tarif, lalu coba lagi.</p></div>
       )}
     </section>
   );
@@ -128,7 +126,7 @@ function HotelCard({ hotel, onChoose }: {
         </div>
         <div className="hotel-bottom">
           <div><strong>SAR {formatSar(hotel.pricePerNight)}</strong><small> / kamar · malam</small></div>
-          <button type="button" onClick={onChoose}>PILIH HOTEL <ArrowRight size={15} /></button>
+          <button type="button" onClick={onChoose}>GUNAKAN TARIF <ArrowRight size={15} /></button>
         </div>
       </div>
     </article>
