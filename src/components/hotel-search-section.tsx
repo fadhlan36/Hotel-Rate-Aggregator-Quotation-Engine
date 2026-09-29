@@ -7,7 +7,7 @@ import type { City, HotelRecord } from "@/lib/hotels";
 import { formatSar } from "@/lib/format";
 
 type Props = {
-  city: City; setCity: (city: City) => void;
+  cityFilter: "ALL" | City; setCityFilter: (city: "ALL" | City) => void;
   checkIn: string; setCheckIn: (date: string) => void;
   checkOut: string; setCheckOut: (date: string) => void;
   guests: number; setGuests: (guests: number) => void;
@@ -25,17 +25,15 @@ const dateAfter = (days: number) =>
 
 export function HotelSearchSection(props: Props) {
   return (
-    <section className="search-section" id="search">r
+    <section className="search-section" id="search">
 
       <div className="search-panel">
         <div className="field city-field">
-          <span>DESTINASI</span>
+          <span>TAMPILKAN HOTEL</span>
           <div className="city-choice">
-            {(["MAKKAH", "MADINAH"] as City[]).map((city) => (
-              <button key={city} type="button" className={props.city === city ? "city-option active" : "city-option"} onClick={() => props.setCity(city)}>
-                <MapPin size={17} /><span>{city === "MAKKAH" ? "Makkah" : "Madinah"}</span>
-              </button>
-            ))}
+            <button type="button" className={props.cityFilter === "ALL" ? "city-option active" : "city-option"} aria-pressed={props.cityFilter === "ALL"} onClick={() => props.setCityFilter("ALL")}>Semua</button>
+            <button type="button" className={props.cityFilter === "MAKKAH" ? "city-option active" : "city-option"} aria-pressed={props.cityFilter === "MAKKAH"} onClick={() => props.setCityFilter("MAKKAH")}><MapPin size={17} />Makkah</button>
+            <button type="button" className={props.cityFilter === "MADINAH" ? "city-option active" : "city-option"} aria-pressed={props.cityFilter === "MADINAH"} onClick={() => props.setCityFilter("MADINAH")}><MapPin size={17} />Madinah</button>
           </div>
         </div>
 
@@ -74,7 +72,7 @@ export function HotelSearchSection(props: Props) {
       <div className="results-head" style={{ marginTop: "3rem" }}>
         <div>
           <div className="section-kicker">HASIL PENCARIAN</div>
-          <h3>Tarif {props.city === "MAKKAH" ? "Makkah" : "Madinah"} <span>· {props.visibleHotels.length} hotel</span></h3>
+          <h3>{props.cityFilter === "ALL" ? "Hotel Makkah & Madinah" : `Hotel ${props.cityFilter === "MAKKAH" ? "Makkah" : "Madinah"}`} <span>· {props.visibleHotels.length} hotel</span></h3>
         </div>
         <div className="result-controls">
           <label className="search-inline"><Search size={15} /><input value={props.query} onChange={(event) => props.setQuery(event.target.value)} placeholder="Cari nama hotel" /></label>
@@ -112,7 +110,7 @@ function HotelCard({ hotel, onChoose }: {
       <div className="hotel-photo" style={{ backgroundImage: `url('${hotel.image}')` }}>
       </div>
       <div className="hotel-info">
-        <div className="hotel-location"><MapPin size={13} />{hotel.distance}</div>
+        <div className="hotel-location"><MapPin size={13} />{hotel.city === "MAKKAH" ? "Makkah" : "Madinah"} · {hotel.distance}</div>
         <h4>{hotel.name}</h4>
         <div className="hotel-meta">
           <span><Star size={14} fill="currentColor" /> {hotel.rating} <small>(ulasan tamu)</small></span>
@@ -120,7 +118,7 @@ function HotelCard({ hotel, onChoose }: {
         </div>
         <div className="hotel-bottom">
           <div><strong>SAR {formatSar(hotel.pricePerNight)}</strong><small> / kamar · malam</small></div>
-          <button type="button" onClick={onChoose}>GUNAKAN TARIF <ArrowRight size={15} /></button>
+          <button type="button" onClick={onChoose}>PILIH HOTEL <ArrowRight size={15} /></button>
         </div>
       </div>
     </article>

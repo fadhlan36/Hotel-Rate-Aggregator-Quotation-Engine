@@ -14,7 +14,7 @@ const dateAfter = (days: number) =>
   new Date(Date.now() + days * 86400000).toISOString().slice(0, 10);
 
 export default function Home() {
-  const [city, setCity] = useState<City>("MAKKAH");
+  const [cityFilter, setCityFilter] = useState<"ALL" | City>("ALL");
   const [checkIn, setCheckIn] = useState(dateAfter(14));
   const [checkOut, setCheckOut] = useState(dateAfter(18));
   const [guests, setGuests] = useState(8);
@@ -71,7 +71,7 @@ export default function Home() {
     setResult(null);
 
     try {
-      const response = await fetch(`/api/hotels?city=${city}`);
+      const response = await fetch("/api/hotels");
       if (!response.ok) {
         throw new Error("Hotel belum dapat dimuat. Coba lagi sebentar.");
       }
@@ -86,22 +86,23 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, [city, checkIn, checkOut, guests]);
+  }, [checkIn, checkOut, guests]);
 
   useEffect(() => {
     void searchHotels();
-  }, [city, searchHotels]);
+  }, [searchHotels]);
 
   const visibleHotels = useMemo(() => {
     const filtered = hotels.filter(
       (hotel) =>
+        (cityFilter === "ALL" || hotel.city === cityFilter) &&
         hotel.name.toLowerCase().includes(query.toLowerCase()) &&
         hotel.pricePerNight <= maxPrice,
     );
     return sort === "price"
       ? [...filtered].sort((a, b) => a.pricePerNight - b.pricePerNight)
       : filtered;
-  }, [hotels, query, sort, maxPrice]);
+  }, [hotels, cityFilter, query, sort, maxPrice]);
 
   function chooseHotel(hotel: HotelRecord) {
     setSelected(hotel);
@@ -155,8 +156,8 @@ export default function Home() {
       <SiteHeader />
       <HeroSection />
       <HotelSearchSection
-        city={city}
-        setCity={setCity}
+        cityFilter={cityFilter}
+        setCityFilter={setCityFilter}
         checkIn={checkIn}
         setCheckIn={setCheckIn}
         checkOut={checkOut}
